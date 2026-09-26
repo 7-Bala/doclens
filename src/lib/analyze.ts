@@ -4,6 +4,7 @@ import {
   humanizeClauseRefs,
   normalizeClauseId,
   segmentClauses,
+  stripCitationPrefix,
   type Clause,
 } from "./clauses";
 import { redact } from "./redact";
@@ -136,10 +137,11 @@ export async function analyzeDocument(
   const risks: VerifiedRisk[] = model.risks
     .map(({ clauseId, ...risk }) => ({
       ...risk,
+      quote: stripCitationPrefix(risk.quote),
       explanation: human(risk.explanation),
       whyItMattersToYou: human(risk.whyItMattersToYou),
       suggestedAction: human(risk.suggestedAction),
-      verification: verifyQuote(risk.quote, normalizeClauseId(clauseId), clauses),
+      verification: verifyQuote(stripCitationPrefix(risk.quote), normalizeClauseId(clauseId), clauses),
     }))
     .sort(
       (a, b) =>
@@ -194,10 +196,10 @@ export async function answerQuestion(request: AskRequest, generate: StructuredGe
     prompt: buildAskPrompt({ role: request.role, question: request.question, clausesText }),
   });
 
-  const citations = model.citations.map((c) => ({
-    quote: c.quote,
-    verification: verifyQuote(c.quote, normalizeClauseId(c.clauseId), clauses),
-  }));
+  const citations = model.citations.map((c) => {
+    const quote = stripCitationPrefix(c.quote);
+    return { quote, verification: verifyQuote(quote, normalizeClauseId(c.clauseId), clauses) };
+  });
   const grounded = citations.some((c) => c.verification.status !== "unverified");
 
   return {

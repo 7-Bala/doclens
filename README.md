@@ -105,7 +105,7 @@ Key decisions:
 
 ## Testing
 
-90 automated tests (Vitest) cover the deterministic core and the API:
+93 automated tests (Vitest) cover the deterministic core and the API:
 
 ```bash
 npm test          # unit and API tests (no network or API key needed)

@@ -118,6 +118,23 @@ export function normalizeClauseId(id: string): string {
 }
 
 /**
+ * Models sometimes prefix a quote with the prompt's clause notation, e.g. "[F] The deposit…"
+ * or "(Clause 4, p.1) The deposit…". Those prefixes are not document text: strip them so the
+ * quote can be verified word for word and shown cleanly.
+ */
+export function stripCitationPrefix(quote: string): string {
+  let q = quote.trim();
+  for (let previous = ""; previous !== q; ) {
+    previous = q;
+    q = q
+      .replace(/^\[\s*[A-Z]{1,3}\s*\]\s*[:.-]?\s*/i, "")
+      .replace(/^\(\s*(?:clause|paragraph|section|article)\b[^)]*\)\s*[:.-]?\s*/i, "")
+      .trim();
+  }
+  return q;
+}
+
+/**
  * Internal ids like "[F]" mean nothing to users, who see "Clause 4" in the document viewer.
  * Rewrites every bracketed id in free text to its human label (or drops unknown ones).
  */

@@ -81,6 +81,18 @@ describe("analyzeDocument", () => {
     expect(result.lawyerQuestions[0]).toBe("Is the deposit rule (Clause 2) fair?");
   });
 
+  it("verifies quotes the model prefixed with clause notation, and shows them clean", async () => {
+    const prefixed = {
+      ...modelAnalysis,
+      risks: [{ ...modelAnalysis.risks[1], quote: "[B] shall be forfeited if the tenant leaves early" }],
+    };
+    const result = await analyzeDocument({ pages: [DOC], role: "tenant", concerns: [], language: "English" }, fakeGenerator(prefixed));
+    expect(result.risks[0]).toMatchObject({
+      quote: "shall be forfeited if the tenant leaves early",
+      verification: { status: "verified", clauseId: "B" },
+    });
+  });
+
   it("catches altered figures in key terms", async () => {
     const result = await analyzeDocument(
       { pages: [DOC], role: "tenant", concerns: [], language: "English" },

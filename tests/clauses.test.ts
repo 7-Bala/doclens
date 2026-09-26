@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { formatClausesForPrompt, humanizeClauseRefs, letterId, normalizeClauseId, segmentClauses } from "@/lib/clauses";
+import {
+  formatClausesForPrompt,
+  humanizeClauseRefs,
+  letterId,
+  normalizeClauseId,
+  segmentClauses,
+  stripCitationPrefix,
+} from "@/lib/clauses";
 
 describe("segmentClauses", () => {
   it("uses the document's own numbering as labels", () => {
@@ -70,5 +77,20 @@ describe("letterId", () => {
     const clauses = segmentClauses(Array.from({ length: 40 }, (_, i) => `${i + 1}. Clause body ${i + 1}.`));
     expect(clauses.every((c) => /^[A-Z]+$/.test(c.id))).toBe(true);
     expect(formatClausesForPrompt(clauses)).toContain("[AN] (Clause 40, p.40)");
+  });
+});
+
+describe("stripCitationPrefix (regression found in production)", () => {
+  it("removes echoed clause notation from the start of a quote", () => {
+    expect(stripCitationPrefix("[F] The deposit shall be refunded.")).toBe("The deposit shall be refunded.");
+    expect(stripCitationPrefix("(Clause 4, p.1) The deposit shall be refunded.")).toBe("The deposit shall be refunded.");
+    expect(stripCitationPrefix("[F] (Clause 4, p.1): The deposit.")).toBe("The deposit.");
+  });
+
+  it("leaves genuine document text alone", () => {
+    expect(stripCitationPrefix("(a) The tenant shall pay rent.")).toBe("(a) The tenant shall pay rent.");
+    expect(stripCitationPrefix("The deposit [as defined above] is refundable.")).toBe(
+      "The deposit [as defined above] is refundable.",
+    );
   });
 });
