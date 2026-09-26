@@ -1,0 +1,35 @@
+/**
+ * Single import surface for icons so the whole app uses one icon family and one
+ * stroke weight. Uses the SSR entry so icons render in Server and Client Components.
+ */
+export {
+  ApproximateEqualsIcon as Approximate,
+  ArrowCounterClockwiseIcon as ArrowCounterClockwise,
+  ArrowRightIcon as ArrowRight,
+  ArrowUpIcon as ArrowUp,
+  BriefcaseIcon as Briefcase,
+  ChatCircleTextIcon as ChatCircleText,
+  CheckIcon as Check,
+  CrosshairIcon as Crosshair,
+  DownloadSimpleIcon as DownloadSimple,
+  FilePdfIcon as FilePdf,
+  FileTextIcon as FileText,
+  HandshakeIcon as Handshake,
+  HouseIcon as House,
+  InfoIcon as Info,
+  LaptopIcon as Laptop,
+  LockKeyIcon as LockKey,
+  PencilSimpleIcon as PencilSimple,
+  PlusIcon as Plus,
+  QuestionIcon as Question,
+  QuotesIcon as Quotes,
+  ScalesIcon as Scales,
+  SealCheckIcon as SealCheck,
+  ShieldCheckIcon as ShieldCheck,
+  ShoppingBagIcon as ShoppingBag,
+  TranslateIcon as Translate,
+  UserIcon as User,
+  WarningIcon as Warning,
+  WarningOctagonIcon as WarningOctagon,
+  XIcon as X,
+} from "@phosphor-icons/react/dist/ssr";

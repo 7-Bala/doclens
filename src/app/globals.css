@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
+/*
+ * Doclens design tokens.
+ * One cool-slate neutral family, deep ink navy for primary actions, and a single
+ * highlighter-gold accent reserved for "this is the line in your document".
+ * Severity colours are semantic states, not accents. All pairs meet WCAG AA.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #eef1f5;
+  --line: #dde2ea;
+  --line-strong: #c3cad6;
+  --text: #0f1729;
+  --muted: #4a5466;
+  --faint: #636d80;
+  --ink: #1b2a4a;
+  --ink-hover: #243761;
+  --ink-contrast: #ffffff;
+  --accent: #a45208;
+  --highlight: #fdf0c4;
+  --highlight-line: #e2a52a;
+  --paper: #fffefb;
+  --high: #b42318;
+  --high-soft: #fdf0ef;
+  --medium: #9a3b0c;
+  --medium-soft: #fdf3ec;
+  --low: #36465f;
+  --low-soft: #eef2f7;
+  --ok: #16723c;
+  --ok-soft: #edf8f1;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #0b0f17;
+    --surface: #111724;
+    --surface-2: #182032;
+    --line: #242e42;
+    --line-strong: #334058;
+    --text: #e7ebf2;
+    --muted: #a4aec0;
+    --faint: #8a95a9;
+    --ink: #dce5fb;
+    --ink-hover: #c6d3f5;
+    --ink-contrast: #0c1426;
+    --accent: #f5b93f;
+    --highlight: #3a2c08;
+    --highlight-line: #c8901c;
+    --paper: #141a27;
+    --high: #ff938a;
+    --high-soft: #2f1414;
+    --medium: #fbb37a;
+    --medium-soft: #2f1d10;
+    --low: #c3cedd;
+    --low-soft: #1b2436;
+    --ok: #7fdca3;
+    --ok-soft: #0f2519;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-ink: var(--ink);
+  --color-ink-hover: var(--ink-hover);
+  --color-ink-contrast: var(--ink-contrast);
+  --color-accent: var(--accent);
+  --color-highlight: var(--highlight);
+  --color-highlight-line: var(--highlight-line);
+  --color-paper: var(--paper);
+  --color-high: var(--high);
+  --color-high-soft: var(--high-soft);
+  --color-medium: var(--medium);
+  --color-medium-soft: var(--medium-soft);
+  --color-low: var(--low);
+  --color-low-soft: var(--low-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+::selection {
+  background: var(--highlight);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
